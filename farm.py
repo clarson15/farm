@@ -5,31 +5,31 @@ import os
 from mysql.connector import connect
 import constants
 
-schedule = []
-
-
 def LoadSchedule():
-    sql = "SELECT * FROM schedule ORDER BY at"
+    sql = "SELECT at, enabled FROM schedule ORDER BY at"
     print(sql)
+    global schedule
     schedule = []
     with dbConnection.cursor() as cursor:
         cursor.execute(sql)
+        midnight = datetime.combine(datetime.today(), datetime.min.time())
         for (at, enabled) in cursor:
-            schedule.append({'at': datetime.strptime(
-                at, '%H:%M:%S'), 'enabled': enabled})
+            scheduleEvent = {'at': midnight + at, 'enabled': enabled}
+            print(scheduleEvent)
+            schedule.append(scheduleEvent)
 
 
 def GetLightState() -> bool:
+    LoadSchedule()
     current_time = datetime.now()
-    for eventTime in schedule:
-        eventTime['at'].year = current_time.year
-        eventTime['at'].month = current_time.month
-        eventTime['at'].day = current_time.day
     if len(schedule) == 0:
-        return False
+        print("No schedule found.")
+        return 0
     for i in range(len(schedule) - 1):
         if(schedule[i]['at'] < current_time and schedule[i+1]['at'] > current_time):
+            print("Using schedule event " + str(i))
             return schedule[i]['enabled']
+    print("Using last schedule event")
     return schedule[len(schedule) - 1]['enabled']
 
 
@@ -37,6 +37,8 @@ def Setup():
     mysqlpass = os.environ['pass']
     global power
     global dbConnection
+    global schedule
+    schedule = []
     power = LED(17)
     dbConnection = connect(host="127.0.0.1", user="pi",
                            password=mysqlpass, db="farm")
@@ -45,7 +47,7 @@ def Setup():
 
 def Log(level, message):
     sql = "INSERT INTO logs (level, message, at) VALUES (" + str(level) + ", \"" + \
-        message + "\", \"" + datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\");"
+        message + "\", \"" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\");"
     print(sql)
     with dbConnection.cursor() as cursor:
         cursor.execute(sql)
@@ -53,10 +55,21 @@ def Log(level, message):
 
 
 def Loop():
-    LoadSchedule()
-    print(GetLightState())
-    time.sleep(5)
+    while True:
+        state = GetLightState()
+        if (state and not power.is_lit):
+            Log(constants.DEBUG, "Turning lights on")
+            power.on()
+        elif (not state and power.is_lit):
+            Log(constants.DEBUG, "Turning lights off")
+            power.off()
+        time.sleep(60)
 
-
-Setup()
-Loop()
+try:
+    Setup()
+    Loop()
+except BaseException as e:
+    print(e)
+    if(dbConnection.is_connected()):
+        Log(constants.DEBUG, "Shutting down...")
+        Log(constants.ERROR, str(e)[-1024:])
