@@ -42,7 +42,7 @@ def ReadTempAndHumidity():
     temp = data[0] * 256 + data[1]
     cTemp = -45 + (175 * temp / 65535.0)
     humidity = 100 * (data[3] * 256 + data[4]) / 65535.0
-    sql = "INSERT INTO readings (humidity, temperature, at) VALUES (%.2f, %.2f, %s)" % (
+    sql = "INSERT INTO readings (humidity, temperature, at) VALUES (%.2f, %.2f, \"%s\")" % (
         humidity, cTemp, datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
     print(sql)
     with dbConnection.cursor() as cursor:
@@ -65,8 +65,8 @@ def Setup():
 
 
 def Log(level, message):
-    sql = "INSERT INTO logs (level, message, at) VALUES (" + str(level) + ", \"" + \
-        message + "\", \"" + datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\");"
+    sql = "INSERT INTO logs (level, message, at) VALUES ( %d, \"%s\", \"%s\")" % (
+        str(level), message, datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
     print(sql)
     with dbConnection.cursor() as cursor:
         cursor.execute(sql)

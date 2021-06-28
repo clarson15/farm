@@ -1,3 +1,8 @@
+Enable i2c communication:
+sudo raspi-config
+Interface Options -> I2C
+sudo reboot
+
 Install and connect to mysql:
 sudo mysql -u pi -p
 USE mysql;
@@ -8,7 +13,7 @@ FLUSH PRIVILEGES;
 CREATE DATABASE farm;
 CREATE TABLE schedule(id INT PRIMARY KEY AUTO_INCREMENT, at TIME NOT NULL, enabled BOOLEAN NOT NULL);
 CREATE TABLE logs(id INT PRIMARY KEY AUTO_INCREMENT, message VARCHAR(1024) NOT NULL, at DATETIME NOT NULL, level TINYINT UNSIGNED NOT NULL);
-CREATE TABLE readings(id INT PRIMARY KEY AUTO_INCREMENT, humidity decimal(3,2) NOT NULL, temperature decimal(3, 2) NOT NULL, at DATETIME NOT NULL);
+CREATE TABLE readings(id INT PRIMARY KEY AUTO_INCREMENT, humidity decimal(5,2) NOT NULL, temperature decimal(5, 2) NOT NULL, at DATETIME NOT NULL);
 
 Create systemd service file in /etc/systemd called farm.service with content:
 
