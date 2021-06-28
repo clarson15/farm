@@ -66,7 +66,7 @@ def Setup():
 
 def Log(level, message):
     sql = "INSERT INTO logs (level, message, at) VALUES ( %d, \"%s\", \"%s\")" % (
-        str(level), message, datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+        level, message, datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
     print(sql)
     with dbConnection.cursor() as cursor:
         cursor.execute(sql)
