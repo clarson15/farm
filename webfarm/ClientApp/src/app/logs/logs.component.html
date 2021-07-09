@@ -1,0 +1,62 @@
+<h1 id="tableLabel">Logs</h1>
+
+<p>View PiFarm's logs for troubleshooting.</p>
+
+<nav aria-label="Page navigation">
+    <ul class="pagination">
+        <li class="page-item" [ngClass]="{'disabled': page == 0}">
+            <span class="page-link clickable" (click)="onFirst()" aria-label="First">&laquo;</span>
+        </li>
+        <li class="page-item" [ngClass]="{'disabled': page == 0}">
+            <span class="page-link clickable" (click)="onPrevious()">{{page}}</span>
+        </li>
+        <li class="page-item active">
+            <span class="page-link clickable">{{page + 1}}</span>
+        </li>
+        <li class="page-item" [ngClass]="{'disabled': page == lastPage}">
+            <span class="page-link clickable" (click)="onNext()">{{page + 2}}</span>
+        </li>
+        <li class="page-item" [ngClass]="{'disabled': page == lastPage}">
+            <span class="page-link clickable" (click)="onLast()" aria-label="Last">&raquo;</span>
+        </li>
+    </ul>
+</nav>
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th scope="col" class="column-5">#</th>
+            <th scope="col" class="column-5">Level</th>
+            <th scope="col" class="column-15">Timestamp</th>
+            <th scope="col" class="column-75">Message</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let log of logs.items; let i = index">
+            <th scope="row">{{page * pageSize + i + 1}}</th>
+            <td>{{parseLogLevel(log.level)}}</td>
+            <td>{{log.at | date:'short'}}</td>
+            <td>
+                <div class="message-column">{{log.message}}</div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<nav aria-label="Page navigation">
+    <ul class="pagination">
+        <li class="page-item" [ngClass]="{'disabled': page == 0}">
+            <span class="page-link clickable" (click)="onFirst()" aria-label="First">&laquo;</span>
+        </li>
+        <li class="page-item" [ngClass]="{'disabled': page == 0}">
+            <span class="page-link clickable" (click)="onPrevious()">{{page}}</span>
+        </li>
+        <li class="page-item active">
+            <span class="page-link clickable">{{page + 1}}</span>
+        </li>
+        <li class="page-item" [ngClass]="{'disabled': page == lastPage}">
+            <span class="page-link clickable" (click)="onNext()">{{page + 2}}</span>
+        </li>
+        <li class="page-item" [ngClass]="{'disabled': page == lastPage}">
+            <span class="page-link clickable" (click)="onLast()" aria-label="Last">&raquo;</span>
+        </li>
+    </ul>
+</nav>

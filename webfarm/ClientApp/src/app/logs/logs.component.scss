@@ -1,0 +1,20 @@
+table {
+    width: auto !important;
+    table-layout: fixed;
+}
+
+.message-column {
+    overflow-wrap: anywhere;
+}
+
+.column-5 {
+    width: 5%;
+}
+
+.column-15 {
+    width: 15;
+}
+
+.column-75 {
+    width: 75%;
+}

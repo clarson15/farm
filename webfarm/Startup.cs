@@ -2,9 +2,12 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
+using webfarm.Models;
 
 namespace webfarm
 {
@@ -20,7 +23,14 @@ namespace webfarm
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<Config>(Configuration);
             services.AddControllersWithViews();
+            services.AddDbContext<ApplicationDbContext>(dbContextOptions =>
+            {
+                var pass = Configuration.GetValue<string>("pass");
+                var connectionString = $"Server=localhost;Database=farm;User=pi;Password={pass};";
+                dbContextOptions.UseMySql(connectionString, new MySqlServerVersion(new System.Version(5, 3)));
+            });
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {

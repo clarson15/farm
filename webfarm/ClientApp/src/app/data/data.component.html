@@ -1,0 +1,13 @@
+<h1 id="tableLabel">Data</h1>
+
+<p>View temperature and humidity logs of your grow spot</p>
+<div class="row query-row">
+    <span class="col-md-auto">Showing data from </span>
+    <input type="datetime" (blur)="formatDate('from')" [(ngModel)]="from" class="form-control col">
+    <span class="col-md-auto"> to </span>
+    <input type="datetime" (blur)="formatDate('to')" [(ngModel)]="to" class="form-control col">
+    <button type="button" id="update" class="btn btn-primary col update-button"
+        (click)="onUpdate($event)">Update</button>
+</div>
+
+<canvas #data id="data" width="400" height="400" class="canvas"></canvas>

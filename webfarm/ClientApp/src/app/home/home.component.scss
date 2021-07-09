@@ -1,0 +1,34 @@
+table {
+    width: auto !important;
+    table-layout: fixed;
+}
+
+.message-column-text {
+    overflow-wrap: anywhere;
+}
+
+.index-column {
+    text-align: center;
+    width: 3%;
+}
+
+.level-column {
+    width: 7%;
+}
+
+.timestamp-column {
+    width: 12%;
+}
+
+.message-column {
+    width: 78%;
+}
+
+.margin-top {
+    margin-top: 24px;
+}
+
+.light-switch {
+    cursor: pointer;
+    margin-right: 12px;
+}

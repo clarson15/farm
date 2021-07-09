@@ -1,0 +1,70 @@
+<h1 id="tableLabel">Schedule</h1>
+
+<p>Modify PiFarm's light schedule.</p>
+
+<div style="height: 50px; width: 100%; border: 1px black solid;" #graphic></div>
+
+<div class="col-md-8 center" style="margin-top: 24px;">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Time</th>
+                <th scope="col">Light Status</th>
+                <th style="width: 100px;">
+                    <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal"
+                        data-bs-target="#addModal">
+                        <i class="bi bi-plus-square-fill"></i>
+                        Add</button>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of schedule; let i = index">
+                <th scope="row">{{i + 1}}</th>
+                <th>{{getTimeString(item)}}</th>
+                <th>{{item.enabled ? 'On' : 'Off'}}</th>
+                <th style="text-align: center;"><i class="bi bi-trash-fill clickable" (click)="onDelete(i)"></i>
+                </th>
+            </tr>
+        </tbody>
+    </table>
+    <div class="row">
+        <span style="flex:1"></span>
+        <button class="btn btn-primary" style="margin-right: 12px; width: auto;" (click)="onSave()">Save</button>
+    </div>
+</div>
+
+<div class="modal fade" id="addModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addModalLabel">Add new schedule event</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closeModalButton
+                    style="display:none;"></button>
+                <button type="button" class="btn-close" (click)="closeModal()"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row align-items-center">
+                    <div class="col-auto">
+                        <input type="text" class="form-control" [(ngModel)]="newTime" (blur)="onNewTimeChanged()">
+                    </div>
+                    <div class="col-auto">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" [(ngModel)]="newLight" id="lightValue">
+                            <label class="form-check-label" for="lightValue">
+                                Light enabled
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
+                <button type="button" class="btn btn-primary" [ngClass]="{'disabled': newDisabled}"
+                    (click)="onSaveNew()">Save
+                    changes</button>
+            </div>
+        </div>
+    </div>
+</div>

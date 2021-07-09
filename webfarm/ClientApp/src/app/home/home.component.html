@@ -1,14 +1,73 @@
-<h1>Hello, world!</h1>
-<p>Welcome to your new single-page application, built with:</p>
-<ul>
-  <li><a href='https://get.asp.net/'>ASP.NET Core</a> and <a href='https://msdn.microsoft.com/en-us/library/67ef8sbd.aspx'>C#</a> for cross-platform server-side code</li>
-  <li><a href='https://angular.io/'>Angular</a> and <a href='http://www.typescriptlang.org/'>TypeScript</a> for client-side code</li>
-  <li><a href='http://getbootstrap.com/'>Bootstrap</a> for layout and styling</li>
-</ul>
-<p>To help you get started, we've also set up:</p>
-<ul>
-  <li><strong>Client-side navigation</strong>. For example, click <em>Counter</em> then <em>Back</em> to return here.</li>
-  <li><strong>Angular CLI integration</strong>. In development mode, there's no need to run <code>ng serve</code>. It runs in the background automatically, so your client-side resources are dynamically built on demand and the page refreshes when you modify any file.</li>
-  <li><strong>Efficient production builds</strong>. In production mode, development-time features are disabled, and your <code>dotnet publish</code> configuration automatically invokes <code>ng build</code> to produce minified, ahead-of-time compiled JavaScript files.</li>
-</ul>
-<p>The <code>ClientApp</code> subdirectory is a standard Angular CLI application. If you open a command prompt in that directory, you can run any <code>ng</code> command (e.g., <code>ng test</code>), or use <code>npm</code> to install extra packages into it.</p>
+<div class="row">
+  <div class="col-sm-6">
+    <div class="card">
+      <div class="card-body">
+        <div class="card-title" style="display: flex; align-items: center;">
+          <h5>Status</h5>
+          <span style="flex: 1"></span>
+          <i *ngIf="status != null && status.lights" class="bi bi-lightbulb-off light-switch"
+            (click)="toggleLight(false)"></i>
+          <i *ngIf="status == null || !status.lights" class="bi bi-lightbulb light-switch"
+            (click)="toggleLight(true)"></i>
+          <i *ngIf="status != null" class="bi bi-check-circle" style="color: green;"></i>
+          <i *ngIf="status == null" class="bi bi-exclamation-circle" style="color: red;"></i>
+        </div>
+        <div class="card-text" style="display: flex;">
+          <span>Status: {{status != null ? 'Connected' : 'Disconnected'}}</span>
+          <span style="flex:1;"></span>
+          <span>Lights: {{status != null ? status.lights ? 'On' : 'Off' : 'Unknown'}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6">
+    <div class="card">
+      <div class="card-body">
+        <div class="card-title" style="display:flex; align-items: center;">
+          <h5>Environment</h5>
+          <span style="flex: 1"></span>
+          <i class="bi bi-cloud"></i>
+        </div>
+        <div class="card-text" style="display: flex;">
+          <span>Temperature: {{ status != null ? status.temp : '???'}}C</span>
+          <span style="flex:1;"></span>
+          <span>Humidity: {{status != null ? status.humidity : '???'}}%</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row margin-top">
+  <div class="col-sm-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="card-title" style="display:flex; align-items: center;">
+          <h5>Recent Errors</h5>
+          <span style="flex: 1"></span>
+          <i class="bi bi-bug"></i>
+        </div>
+        <table class="table table-bordered table-striped" *ngIf="errors.length > 0">
+          <thead>
+            <tr>
+              <th scope="col" class="index-column">#</th>
+              <th scope="col" class="level-column">Level</th>
+              <th scope="col" class="timestamp-column">Timestamp</th>
+              <th scope="col" class="message-column">Message</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let log of errors; let i = index">
+              <th scope="row" class="index-column">{{i+1}}</th>
+              <td>Error</td>
+              <td>{{log.at | date:'short'}}</td>
+              <td>
+                <div class="message-column-text">{{log.message}}</div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <p style="text-align: center;" *ngIf="errors.length == 0">No recent errors</p>
+      </div>
+    </div>
+  </div>
+</div>
