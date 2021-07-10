@@ -112,10 +112,10 @@ def Loop():
                 Temperature, Humidity = GetTempAndHumidity()
                 conn.send(('%s,%.2f,%.2f' %
                            (power.is_lit, Temperature, Humidity)).encode('ascii'))
-            elif data == b'toggle False':
+            elif data == b'toggle false':
                 Log(constants.DEBUG, 'Received lights toggle off request')
                 conn.send(b'1')
-            elif data == b'toggle True':
+            elif data == b'toggle true':
                 print(constants.DEBUG, 'Received lights toggle on request')
                 conn.send(b'1')
             print('responded')

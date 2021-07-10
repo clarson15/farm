@@ -21,14 +21,16 @@ while True:
             print('received status request')
             conn.send(('%s,%.2f,%.2f' %
                        (lights, Temperature + (randint(-10, 10) / 10), Humidity + (randint(-10, 10) / 10))).encode('ascii'))
-        elif data == b'toggle False':
+        elif data == b'toggle false':
             lights = False
             print('received toggle off request')
             conn.send(b'1')
-        elif data == b'toggle True':
+        elif data == b'toggle true':
             lights = True
             print('received toggle on request')
             conn.send(b'1')
+        else:
+            conn.send(b'0')
         print('responded')
         conn.close()
     except:
