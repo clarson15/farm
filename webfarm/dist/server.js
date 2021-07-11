@@ -1,9 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const express = require("express");
-const bodyParser = require("body-parser");
-const app = express()
-    .use(bodyParser.json());
-app.listen(8080, () => {
-    console.log('WebFarm listening on port 8080');
-});
+const app_1 = require("./app");
+const data_controller_1 = require("./controllers/data.controller");
+const dashboard_controller_1 = require("./controllers/dashboard.controller");
+const app = new app_1.App([
+    new data_controller_1.DataController(),
+    new dashboard_controller_1.DashboardController()
+]);
+app.listen();
