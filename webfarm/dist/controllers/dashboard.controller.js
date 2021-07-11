@@ -82,7 +82,7 @@ class DashboardController {
     getErrors(request, response, next) {
         const from = new Date();
         from.setDate(from.getDate() - 5);
-        const query = `WHERE at>='${this.getDateString(from)}'`;
+        const query = `WHERE at>='${this.getDateString(from)}' AND level=2`;
         this.readFromDatabase(`SELECT id, level, message, at FROM logs ${query} ORDER BY at DESC LIMIT 0, 5;`, next, (data) => {
             response.send(data);
         });
