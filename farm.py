@@ -64,7 +64,9 @@ def Setup():
     global schedule
     global bus
     global sock
+    global manuallySet
     schedule = []
+    manuallySet = False
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     sock.bind(('127.0.0.1', 48307))
     sock.settimeout(1.0)
@@ -86,15 +88,21 @@ def Log(level, message):
 
 
 def ChangeLights(state):
+    global manuallySet
     if (state and not power.is_lit):
-        Log(constants.DEBUG, "Turning lights on")
-        power.on()
+        if not manuallySet:
+            Log(constants.DEBUG, "Turning lights on")
+            power.on()
     elif (not state and power.is_lit):
-        Log(constants.DEBUG, "Turning lights off")
-        power.off()
+        if not manuallySet:
+            Log(constants.DEBUG, "Turning lights off")
+            power.off()
+    else:
+        manuallySet = False
 
 
 def Loop():
+    global manuallySet
     iteration = 600
     while True:
         if iteration >= 600:
@@ -115,9 +123,13 @@ def Loop():
             elif data == b'toggle false':
                 Log(constants.DEBUG, 'Received lights toggle off request')
                 conn.send(b'1')
+                ChangeLights(False)
+                manuallySet = False
             elif data == b'toggle true':
                 print(constants.DEBUG, 'Received lights toggle on request')
                 conn.send(b'1')
+                ChangeLights(True)
+                manuallySet = True
             print('responded')
             conn.close()
         except:
