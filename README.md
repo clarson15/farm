@@ -10,6 +10,9 @@ PiFarm is a personal project I created to use a Raspberry Pi to automate an indo
 - Charts to view environment sensor readings
 - Log viewer to troubleshoot if something goes wrong
 
+![Homepage](images/homepage.png "Homepage") ![Logs](images/logs.png "Logs")
+![Schedule](images/schedule.png "Schedule") ![Data](images/data.png "Data")
+
 ## Tech
 
 - [Angular]
