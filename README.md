@@ -44,10 +44,12 @@ sudo apt-get install python3-smbus
 ```
 
 ### Install [Node.js]
+Replace 16 with latest major version of Node
 ```
 curl -sL https://deb.nodesource.com/setup_16.x | sudo bash -
 ```
 #### Raspberry Pi Zero, Zero W, and Raspberry Pi 1:
+Find the latest version of node from https://unofficial-builds.nodejs.org/download/release (my example is v16.4.2)
 ```
 curl -o node-v16.4.2-linux-armv6l.tar.gz https://unofficial-builds.nodejs.org/download/release/v16.4.2/node-v16.4.2-linux-armv6l.tar.gz
 tar -xzf node-v16.4.2-linux-armv6l.tar.gz
