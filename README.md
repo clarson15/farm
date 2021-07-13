@@ -27,7 +27,7 @@ PiFarm is a personal project I created to use a Raspberry Pi to automate an indo
 (while logged in as pi)
 ```
 cd ~
-git@github.com:clarson15/farm.git
+git clone git@github.com:clarson15/farm.git
 ```
 
 ### Enable I2C interface
