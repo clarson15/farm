@@ -29,6 +29,7 @@ export class DashboardController implements IController {
             database: 'farm'
         });
         this.data.on('error', (err) => {
+            this.connectToDatabase();
             console.log(err);
         });
     }
