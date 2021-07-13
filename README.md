@@ -105,6 +105,22 @@ sudo systemctl enable webfarm.service
 sudo reboot
 ```
 
+## Todo
+
+General:
+- Split graph into multiple graphs
+- Rewrite python script in javascript
+- Remove TCP socket communication between services
+- Optimize python schedule code to not query DB every second
+
+Configuration Page:
+- Add support for multiple environment sensors
+- Add support for pumps
+- Add support for fans
+- Add support for multiple light pins
+
+
+
 ## License
 MIT
 
