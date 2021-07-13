@@ -1,0 +1,15 @@
+[Unit]
+Description=Farm Web systemd service
+After=mysql.service
+StartLimitIntervalSec=500
+StartLimitBurst=5
+
+[Service]
+Type=simple
+Environment="pass=your_password"
+ExecStart=/usr/local/bin/node /home/pi/farm/webfarm/dist/server.js
+Restart=on-failure
+RestartSec=5s
+
+[Install]
+WantedBy=multi-user.target
