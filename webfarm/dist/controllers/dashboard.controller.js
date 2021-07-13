@@ -24,6 +24,7 @@ class DashboardController {
             database: 'farm'
         });
         this.data.on('error', (err) => {
+            this.connectToDatabase();
             console.log(err);
         });
     }
